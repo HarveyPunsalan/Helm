@@ -58,12 +58,13 @@ export async function updateJobStatus(req: Request, res: Response) {
             .select("*")
             .single()
 
-        if (error) throw error
+        if (error && error.code !== 'PGRST116') throw error;
 
         if (!data) return res.status(404).json({ error: 'Job not found' });
         return res.json(data);
 
     } catch (error) {
+        console.log(error)
         return res.status(500).json({ error: 'Failed to update job' });
     }
 }
