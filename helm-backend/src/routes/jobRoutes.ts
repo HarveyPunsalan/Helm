@@ -1,11 +1,10 @@
 import { Router } from 'express';
-import { getAllJobs } from '../controllers/jobController';
+import { getAllJobs, createJob } from '../controllers/jobController';
 
 export const router = Router()
 
 router.get('/', getAllJobs) 
-
-// router.post('/', createJob) 
+router.post('/', createJob) 
 
 // router.patch('/:id', updateJobStatus)
    
