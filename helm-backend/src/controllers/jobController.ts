@@ -68,3 +68,24 @@ export async function updateJobStatus(req: Request, res: Response) {
     }
 }
 
+export async function deleteJob(req: Request, res: Response) {
+    const { id } = req.params;
+
+    try {
+        const { data, error } = await supabase
+        .from("job_applications")
+        .delete()
+        .eq("id", id)
+        .select()
+
+        if (error) throw error
+
+        if (data.length === 0) return res.status(404).json({ error: 'Job not found' });
+
+        return res.status(200).json({ message: 'Job deleted successfully' });
+
+    } catch (error) {
+        return res.status(500).json({ error: "Job not found" });
+    }  
+}
+
