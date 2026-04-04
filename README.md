@@ -36,25 +36,24 @@ I built this as my first fullstack project outside of school. The goal was to ac
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | \`/api/jobs\` | Get all job applications |
-| POST | \`/api/jobs\` | Add a new application |
-| PATCH | \`/api/jobs/:id\` | Update application status |
-| DELETE | \`/api/jobs/:id\` | Delete an application |
+| GET | `/api/jobs` | Get all job applications |
+| POST | `/api/jobs` | Add a new application |
+| PATCH | `/api/jobs/:id` | Update application status |
+| DELETE | `/api/jobs/:id` | Delete an application |
 
 ---
 
 ## Live API
-Base URL: \`https://helm-backend-z9fl.onrender.com\`
+Base URL: `https://helm-backend-z9fl.onrender.com`
 
 > Hosted on Render's free tier — first request after 15 minutes idle takes around 30–60 seconds to wake up.
 
 Try the health check:
-\`https://helm-backend-z9fl.onrender.com/health\`
+`https://helm-backend-z9fl.onrender.com/health`
 
 ---
 
 ## Project Structure
-\`\`\`
 helm/
 ├── helm-backend/
 │   ├── src/
@@ -71,54 +70,51 @@ helm/
 │   ├── tsconfig.json
 │   └── package.json
 └── helm-frontend/
-    ├── public/
-    │   └── favicon.svg
-    ├── src/
-    │   ├── App.tsx
-    │   ├── main.tsx
-    │   └── index.css
-    ├── index.html
-    ├── tailwind.config.js
-    ├── vite.config.ts
-    └── package.json
-\`\`\`
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
+├── index.html
+├── tailwind.config.js
+├── vite.config.ts
+└── package.json
 
 ---
 
 ## Running Locally
 
 **Backend**
-\`\`\`bash
+```bash
 cd helm-backend
 npm install
 cp .env.example .env
 npm run dev
-\`\`\`
+```
 
 **Frontend**
-\`\`\`bash
+```bash
 cd helm-frontend
 npm install
 npm run dev
-\`\`\`
+```
 
 ---
 
 ## Environment Variables
-\`\`\`
 SUPABASE_URL=
 SUPABASE_SERVICE_ROLE_KEY=
 PORT=3000
-\`\`\`
 
 ---
 
 ## Scripts
-\`\`\`bash
+```bash
 npm run dev      # run locally with nodemon + ts-node
 npm run build    # compile TypeScript to dist/
 npm start        # run compiled output, what Render actually runs
-\`\`\`
+```
 
 ---
 
