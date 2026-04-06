@@ -1,10 +1,26 @@
-function App() {
-  return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-      <h1 className="text-white text-3xl font-bold">Helm is alive</h1>
+import { useState } from "react"
+import  Header  from './components/Header'
+import JobForm  from './components/JobForm'
+import JobTable from './components/JobTable'
+import StatCards from './components/StatCards'
+import type { Job } from './types/job'
 
-    </div>
-  )
+function App() {
+  const [jobs] = useState<Job[]>([])
+  const stats = { total: 0, interviews: 0, offers: 0, rejected: 0 }
+
+    return (
+        <div className="min-h-screen bg-slate-900">
+          <Header total={jobs.length} />
+          <main className="py-6 space-y-6">
+            <StatCards stats={stats} />
+            <JobForm />
+            <JobTable jobs={jobs} />
+          </main>
+        </div>
+    );
 }
 
-export default App
+export default App;
+
+
