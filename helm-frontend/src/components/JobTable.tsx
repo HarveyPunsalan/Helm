@@ -6,7 +6,6 @@ interface JobTableProps {
 }
 
 function JobTable({ jobs }: JobTableProps) {
-
   function getStatusClasses(status: string) {
     if (status === "Applied")   return "bg-indigo-500/20 text-indigo-300";
     if (status === "Interview") return "bg-yellow-500/20 text-yellow-300";
@@ -39,7 +38,10 @@ function JobTable({ jobs }: JobTableProps) {
               </tr>
             ) : (
               jobs.map((job) => (
-                <tr key={job.id} className="hover:bg-slate-700 transition-colors border-b border-slate-700">
+                <tr
+                  key={job.id}
+                  className="hover:bg-slate-700 transition-colors border-b border-slate-700"
+                >
                   <td className="px-4 py-3 text-slate-300">{job.company}</td>
                   <td className="px-4 py-3 text-slate-300">{job.role}</td>
                   <td className="px-4 py-3">
@@ -49,7 +51,20 @@ function JobTable({ jobs }: JobTableProps) {
                   </td>
                   <td className="px-4 py-3 text-slate-300">{job.applied_date}</td>
                   <td className="px-4 py-3 text-slate-300">{job.notes}</td>
-                  <td className="px-4 py-3 text-slate-300">actions here</td>
+                  <td className="px-4 py-3 flex items-center gap-2">
+                    <select
+                      defaultValue={job.status}
+                      className="bg-slate-700 text-slate-300 text-xs rounded px-2 py-1 border border-slate-600"
+                    >
+                      <option>Applied</option>
+                      <option>Interview</option>
+                      <option>Offer</option>
+                      <option>Rejected</option>
+                    </select>
+                    <button className="text-xs text-red-400 hover:text-red-300 px-2 py-1 rounded hover:bg-red-500/10 transition-colors">
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))
             )}
