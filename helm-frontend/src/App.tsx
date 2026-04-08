@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react"
 import Header from "./components/Header";
 import JobForm from "./components/JobForm";
 import JobTable from "./components/JobTable";
@@ -10,7 +10,14 @@ function App() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-  const stats = { total: 0, interviews: 0, offers: 0, rejected: 0 };
+  const stats = useMemo(() => {
+  return {
+    total: jobs.length,
+    interviews: jobs.filter(job => job.status === "Interview").length,
+    offers: jobs.filter(job => job.status === "Offer").length,
+    rejected: jobs.filter(job => job.status === "Rejected").length,
+  }
+}, [jobs])
 
   async function loadJobs() {
     setLoading(true);
