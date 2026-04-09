@@ -5,9 +5,11 @@ interface JobTableProps {
   jobs: Job[];
   onDelete: (id: string) => void;
   onStatusChange: (id: string, status: string) => void;
+  loading: boolean;
+  error: string;
 }
 
-function JobTable({ jobs, onDelete, onStatusChange }: JobTableProps) {
+function JobTable({ jobs, onDelete, onStatusChange, loading, error }: JobTableProps) {
   function getStatusClasses(status: string) {
     if (status === "Applied")   return "bg-indigo-500/20 text-indigo-300";
     if (status === "Interview") return "bg-yellow-500/20 text-yellow-300";
@@ -32,7 +34,23 @@ function JobTable({ jobs, onDelete, onStatusChange }: JobTableProps) {
           </thead>
 
           <tbody>
-            {jobs.length === 0 ? (
+            {loading ? (
+              <>
+                {[1, 2, 3].map((i) => (
+                  <tr key={i}>
+                    <td colSpan={6} className="px-4 py-3">
+                      <div className="animate-pulse bg-slate-700 rounded h-8" />
+                    </td>
+                  </tr>
+                ))}
+              </>
+            ) : error ? (
+              <tr>
+                <td colSpan={6} className="px-4 py-3 text-center text-red-400">
+                  {error}
+                </td>
+              </tr>
+            ) : jobs.length === 0 ? (
               <tr>
                 <td colSpan={6}>
                   <EmptyState />
@@ -64,9 +82,10 @@ function JobTable({ jobs, onDelete, onStatusChange }: JobTableProps) {
                       <option>Offer</option>
                       <option>Rejected</option>
                     </select>
-                    <button 
+                    <button
                       onClick={() => onDelete(job.id)}
-                      className="text-xs text-red-400 hover:text-red-300 px-2 py-1 rounded hover:bg-red-500/10 transition-colors">
+                      className="text-xs text-red-400 hover:text-red-300 px-2 py-1 rounded hover:bg-red-500/10 transition-colors"
+                    >
                       Delete
                     </button>
                   </td>

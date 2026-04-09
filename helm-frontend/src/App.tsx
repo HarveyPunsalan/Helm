@@ -61,7 +61,7 @@ function App() {
       <main className="py-6 space-y-6">
         <StatCards stats={stats} />
         <JobForm onSubmit={handleAddJob} />
-        <JobTable jobs={jobs} onDelete={handleDeleteJob} onStatusChange={handleStatusChange} />
+        <JobTable jobs={jobs} onDelete={handleDeleteJob} onStatusChange={handleStatusChange} loading={loading} error={error} />
       </main>
     </div>
   );
