@@ -3,9 +3,10 @@ import EmptyState from "./EmptyState";
 
 interface JobTableProps {
   jobs: Job[];
+  onDelete: (id: string) => void;
 }
 
-function JobTable({ jobs }: JobTableProps) {
+function JobTable({ jobs, onDelete }: JobTableProps) {
   function getStatusClasses(status: string) {
     if (status === "Applied")   return "bg-indigo-500/20 text-indigo-300";
     if (status === "Interview") return "bg-yellow-500/20 text-yellow-300";
@@ -61,7 +62,9 @@ function JobTable({ jobs }: JobTableProps) {
                       <option>Offer</option>
                       <option>Rejected</option>
                     </select>
-                    <button className="text-xs text-red-400 hover:text-red-300 px-2 py-1 rounded hover:bg-red-500/10 transition-colors">
+                    <button 
+                      onClick={() => onDelete(job.id)}
+                      className="text-xs text-red-400 hover:text-red-300 px-2 py-1 rounded hover:bg-red-500/10 transition-colors">
                       Delete
                     </button>
                   </td>

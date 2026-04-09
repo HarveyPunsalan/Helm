@@ -4,20 +4,20 @@ import JobForm from "./components/JobForm";
 import JobTable from "./components/JobTable";
 import StatCards from "./components/StatCards";
 import type { Job, CreateJobBody } from "./types/job";
-import { fetchJobs, createJob } from "./services/jobService";
+import { fetchJobs, createJob, deleteJob } from "./services/jobService";
 
 function App() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const stats = useMemo(() => {
-  return {
-    total: jobs.length,
-    interviews: jobs.filter(job => job.status === "Interview").length,
-    offers: jobs.filter(job => job.status === "Offer").length,
-    rejected: jobs.filter(job => job.status === "Rejected").length,
-  }
-}, [jobs])
+    return {
+      total: jobs.length,
+      interviews: jobs.filter(job => job.status === "Interview").length,
+      offers: jobs.filter(job => job.status === "Offer").length,
+      rejected: jobs.filter(job => job.status === "Rejected").length,
+    }
+  }, [jobs])
 
   async function loadJobs() {
     setLoading(true);
@@ -30,15 +30,20 @@ function App() {
       setLoading(false);
     }
   }
-  
+
   useEffect(() => {
     loadJobs();
   }, []);
 
   async function handleAddJob(data: CreateJobBody) {
-  await createJob(data);
-  await loadJobs();
-}
+    await createJob(data);
+    await loadJobs();
+  }
+
+  async function handleDeleteJob(id: string) {
+    await deleteJob(id);
+    await loadJobs();
+  }
 
   return (
     <div className="min-h-screen bg-slate-900">
@@ -46,7 +51,7 @@ function App() {
       <main className="py-6 space-y-6">
         <StatCards stats={stats} />
         <JobForm onSubmit={handleAddJob} />
-        <JobTable jobs={jobs} />
+        <JobTable jobs={jobs} onDelete={handleDeleteJob} />
       </main>
     </div>
   );
