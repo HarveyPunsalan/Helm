@@ -13,20 +13,25 @@ function JobForm({ onSubmit }: JobFormProps) {
     applied_date: "",
     notes: "",
   });
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!form.company || !form.role || !form.applied_date) {
-      alert("Company, Role and Date are required.");
+      setFormError("Company, Role and Date are required.");
       return;
     }
-    onSubmit(form);
+    setFormError("");
+    setSubmitting(true);
+    await onSubmit(form);
+    setSubmitting(false);
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="bg-slate-800 rounded-xl p-6 mx-6">
-        <div className="flex flex-wrap gap-3 items-end">
+        <div className="flex flex-col md:flex-row md:flex-wrap gap-3 md:items-end">
           <div className="flex flex-col gap-1 flex-1">
             <label className="text-slate-400 text-sm">Company</label>
             <input
@@ -86,11 +91,16 @@ function JobForm({ onSubmit }: JobFormProps) {
 
           <button
             type="submit"
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-5 py-2 rounded-lg transition-colors whitespace-nowrap"
+            disabled={submitting}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-5 py-2 rounded-lg transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Add Application
+            {submitting ? "Adding..." : "Add Application"}
           </button>
         </div>
+
+        {formError && (
+          <p className="text-red-400 text-sm mt-2">{formError}</p>
+        )}
       </div>
     </form>
   );

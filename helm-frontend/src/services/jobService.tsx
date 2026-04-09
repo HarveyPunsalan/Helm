@@ -1,6 +1,6 @@
 import type { Job, CreateJobBody } from '../types/job';
 
-export const API_URL = 'https://helm-backend-z9fl.onrender.com/api/jobs';
+export const API_URL = import.meta.env.VITE_API_URL;
 
 export async function fetchJobs(): Promise<Job[]> {
     const res = await fetch(API_URL);
