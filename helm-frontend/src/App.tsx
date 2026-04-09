@@ -1,10 +1,15 @@
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo } from "react";
 import Header from "./components/Header";
 import JobForm from "./components/JobForm";
 import JobTable from "./components/JobTable";
 import StatCards from "./components/StatCards";
 import type { Job, CreateJobBody } from "./types/job";
-import { fetchJobs, createJob, deleteJob } from "./services/jobService";
+import {
+  fetchJobs,
+  createJob,
+  deleteJob,
+  updateJobStatus,
+} from "./services/jobService";
 
 function App() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -13,11 +18,11 @@ function App() {
   const stats = useMemo(() => {
     return {
       total: jobs.length,
-      interviews: jobs.filter(job => job.status === "Interview").length,
-      offers: jobs.filter(job => job.status === "Offer").length,
-      rejected: jobs.filter(job => job.status === "Rejected").length,
-    }
-  }, [jobs])
+      interviews: jobs.filter((job) => job.status === "Interview").length,
+      offers: jobs.filter((job) => job.status === "Offer").length,
+      rejected: jobs.filter((job) => job.status === "Rejected").length,
+    };
+  }, [jobs]);
 
   async function loadJobs() {
     setLoading(true);
@@ -45,13 +50,18 @@ function App() {
     await loadJobs();
   }
 
+  async function handleStatusChange(id: string, status: string) {
+    await updateJobStatus(id, status);
+    await loadJobs();
+  }
+
   return (
     <div className="min-h-screen bg-slate-900">
       <Header total={jobs.length} />
       <main className="py-6 space-y-6">
         <StatCards stats={stats} />
         <JobForm onSubmit={handleAddJob} />
-        <JobTable jobs={jobs} onDelete={handleDeleteJob} />
+        <JobTable jobs={jobs} onDelete={handleDeleteJob} onStatusChange={handleStatusChange} />
       </main>
     </div>
   );
